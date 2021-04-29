@@ -71,18 +71,18 @@ resource "aws_cloudwatch_log_group" "cloudwatch_kafka" {
 }
 
 module "kafka" {
-  source                 = "github.com/cloudposse/terraform-aws-msk-apache-kafka-cluster.git?ref=master"
-  namespace              = "brodewicz.tech"
-  stage                  = "dev"
-  name                   = "streaming-app"
-  vpc_id                 = aws_vpc.main.id
-  zone_id                = aws_route53_zone.primary.id
-  security_groups        = [aws_security_group.allow_http.id]
-  subnet_ids             = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
-  kafka_version          = "2.4.1.1"
-  number_of_broker_nodes = 2
-  broker_instance_type   = "kafka.m5.large"
-  broker_volume_size     = 2
-  cloudwatch_logs_enabled = true
+  source                    = "github.com/cloudposse/terraform-aws-msk-apache-kafka-cluster.git?ref=master"
+  namespace                 = "brodewicz.tech"
+  stage                     = "dev"
+  name                      = "streaming-app"
+  vpc_id                    = aws_vpc.main.id
+  zone_id                   = aws_route53_zone.primary.id
+  security_groups           = [aws_security_group.allow_http.id]
+  subnet_ids                = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  kafka_version             = "2.4.1.1"
+  number_of_broker_nodes    = 2
+  broker_instance_type      = "kafka.m5.large"
+  broker_volume_size        = 2
+  cloudwatch_logs_enabled   = true
   cloudwatch_logs_log_group = aws_cloudwatch_log_group.cloudwatch_kafka.name
 }
