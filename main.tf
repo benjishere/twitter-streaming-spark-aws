@@ -61,6 +61,15 @@ resource "aws_security_group" "allow_http" {
   }
 }
 
+resource "aws_cloudwatch_log_group" "cloudwatch_kafka" {
+  name = "cloudwatch_kafka"
+
+  tags = {
+    Environment = "dev"
+    Application = "streaming-app"
+  }
+}
+
 module "kafka" {
   source                 = "github.com/cloudposse/terraform-aws-msk-apache-kafka-cluster.git?ref=master"
   namespace              = "brodewicz.tech"
@@ -73,4 +82,7 @@ module "kafka" {
   kafka_version          = "2.4.1.1"
   number_of_broker_nodes = 2
   broker_instance_type   = "kafka.m5.large"
+  broker_volume_size     = 2
+  cloudwatch_logs_enabled = true
+  cloudwatch_logs_log_group = aws_cloudwatch_log_group.cloudwatch_kafka.name
 }
